@@ -1,6 +1,6 @@
-# pdf_to_notion
+# pdf_summary
 
-make pdf file to notion
+make pdf file to text, then summary it
 
 ### 'git config --local commit.template .gitmessage'
 
