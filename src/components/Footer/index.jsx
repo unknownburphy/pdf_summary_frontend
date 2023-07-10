@@ -1,12 +1,10 @@
-import "./Footer.css";
-
 const Footer = () => {
   return (
-    <footer>
-      <div className="copyright-container">
+    <div id="footer-wrapper" className="bg-slate-200 w-full">
+      <div>
         <span>Footer div</span>
       </div>
-    </footer>
+    </div>
   );
 };
 
