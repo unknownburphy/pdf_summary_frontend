@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const test = (question) => {
+export const gptApi = (question) => {
   const url = "https://api.openai.com/v1/completions";
 
   const headers = {
