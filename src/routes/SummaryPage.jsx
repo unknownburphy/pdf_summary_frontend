@@ -2,9 +2,10 @@ import FileSaver from "file-saver";
 import CopyToClipboard from "react-copy-to-clipboard";
 
 const Summary = () => {
-  // dummyText 대신 summary
+  // now we are testing with dummyText instead of SummaryText
   const dummyText = "This is a dummy text";
 
+  // function to save text as a .txt file
   const exportTxt = () => {
     const blob = new Blob([dummyText], { type: "text/plain;charset=utf-8" });
     FileSaver.saveAs(blob, "summary.txt");
