@@ -1,18 +1,14 @@
-import { useCallback } from "react";
+import FileSaver from "file-saver";
 import CopyToClipboard from "react-copy-to-clipboard";
 
 const Summary = () => {
+  // dummyText 대신 summary
   const dummyText = "This is a dummy text";
 
-  const exportTxt = useCallback(() => {
-    let fileName = "filename.txt";
-    const element = document.createElement("a");
-    const file = new Blob([dummyText], { type: "text/plain" });
-    element.href = URL.createObjectURL(file);
-    element.download = fileName;
-    // document.body.appendChild(element);
-    element.click();
-  }, []);
+  const exportTxt = () => {
+    const blob = new Blob([dummyText], { type: "text/plain;charset=utf-8" });
+    FileSaver.saveAs(blob, "summary.txt");
+  };
 
   return (
     <div id="summary-area-wrapper" className="h-96">
