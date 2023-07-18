@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router";
 import { useState } from "react";
+import HashLoader from "react-spinners/HashLoader";
 
 const Home = ({ onReceiveSummary }) => {
   const navigate = useNavigate();
@@ -49,7 +50,9 @@ const Home = ({ onReceiveSummary }) => {
           </div>
           <div>
             {loading ? (
-              <div>loading...</div>
+              <div>
+                <HashLoader color="#36d7b7" />
+              </div>
             ) : (
               <>
                 <input
