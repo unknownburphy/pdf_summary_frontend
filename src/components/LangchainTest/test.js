@@ -6,7 +6,7 @@ import * as fs from "fs";
 import pdfLoader from "./pdfLoad.js";
 
 //test용 키
-const apiKey = "sk-1234567890";
+const apiKey = "fuckyou";
 
 const run = async () => {
   // In this example, we use a `MapReduceDocumentsChain` specifically prompted to summarize a set of documents.
@@ -15,25 +15,26 @@ const run = async () => {
   const text = await pdfLoader();
   const model = new OpenAI({
     openAIApiKey: apiKey,
+    maxTokens: -1,
   });
   const textSplitter = new RecursiveCharacterTextSplitter({
-    chunkSize: 500,
-    chunkOverlap: 100,
+    chunkSize: 2000,
+    chunkOverlap: 200,
   });
   // when use pdf file
   const docs = await textSplitter.splitDocuments(text);
   // const docs = await textSplitter.createDocuments([text]);
 
   const mapPrompt1 =
-    "Write a concise summary of the following:\n\n\n{text}\n\n\nCONCISE SUMMARY IN KOREAN:";
-  const promptTest1 = new PromptTemplate({
+    "Write a concise summary of the following text delimited by triple backticks: {text} CONCISE SUMMARY:";
+  const mapPrompt = new PromptTemplate({
     inputVariables: ["text"],
     template: mapPrompt1,
   });
 
   const mapPrompt2 =
-    "Write a concise summary of the following:\n\n\n{text}\n\n\nCONCISE SUMMARY IN KOREAN:";
-  const promptTest2 = new PromptTemplate({
+    "Write a concise summary of the following text delimited by triple backticks.Return your response in bullet points which covers the key points of the text. {text} BULLET POINT SUMMARY:";
+  const combinePrompt = new PromptTemplate({
     inputVariables: ["text"],
     template: mapPrompt2,
   });
@@ -42,8 +43,8 @@ const run = async () => {
   const chain = loadSummarizationChain(model, {
     type: "map_reduce",
     returnIntermediateSteps: true,
-    combineMapPrompt: promptTest1,
-    // combinePrompt: promptTest2,
+    combineMapPrompt: mapPrompt,
+    combinePrompt: combinePrompt,
     verbose: true,
   });
   const res = await chain.call({

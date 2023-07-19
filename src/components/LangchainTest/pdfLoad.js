@@ -4,7 +4,7 @@ const pdfLoader = async () => {
   const loader = new PDFLoader("pdf1.pdf", { splitPages: false });
 
   const docs = await loader.load();
-  // console.log(docs);
+  console.log(docs);
   return docs;
 };
 pdfLoader();
