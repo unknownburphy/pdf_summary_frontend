@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router";
 import { useState } from "react";
 import HashLoader from "react-spinners/HashLoader";
+import langchainSummary from "../Functions/langchainSummary";
 
 const Home = ({ onReceiveSummary }) => {
   const navigate = useNavigate();
@@ -9,8 +10,18 @@ const Home = ({ onReceiveSummary }) => {
 
   const [loading, setLoading] = useState(false);
 
+  const [fileUrl, setFileUrl] = useState(null);
+
   const handleFileChange = (e) => {
-    setSelectedFile(e.target.files[0]);
+    // setSelectedFile(e.target.files[0]);
+    const file = e.target.files[0];
+    console.log(file);
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      setFileUrl(event.target.result);
+      // convertPdfToText(fileUrl);
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleSubmit = async () => {
@@ -20,24 +31,35 @@ const Home = ({ onReceiveSummary }) => {
     // 3. this will happen in loading page
     // 4. if loading is completed, give summary data to App.js
     // 5. Finally, navigate to the summary page
-    const dummySummary = "this is a dummy summary2";
+    console.log("handleSubmit executed");
+    console.log(fileUrl);
+    const res = await langchainSummary(fileUrl);
+    console.log(res);
 
-    if (selectedFile) {
-      setLoading(true);
-      console.log(loading);
+    //res.text, res.intermediateSteps 접근 가능
+    console.log(res.text);
+    console.log(res.intermediateSteps[0]);
+    onReceiveSummary(res.text);
+    navigate("/summary");
 
-      try {
-        // should be text extraction and summary logic
-        setTimeout(() => {
-          setLoading(false);
-          console.log(loading);
-          onReceiveSummary(dummySummary);
-          navigate("/summary");
-        }, 1000);
-      } catch (error) {
-        console.error(error);
-      }
-    }
+    // const dummySummary = "this is a dummy summary2";
+
+    // if (selectedFile) {
+    //   setLoading(true);
+    //   console.log(loading);
+
+    //   try {
+    //     // should be text extraction and summary logic
+    //     setTimeout(() => {
+    //       setLoading(false);
+    //       console.log(loading);
+    //       onReceiveSummary(dummySummary);
+    //       navigate("/summary");
+    //     }, 1000);
+    //   } catch (error) {
+    //     console.error(error);
+    //   }
+    // }
   };
 
   return (
