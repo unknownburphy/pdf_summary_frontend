@@ -3,37 +3,41 @@ import { loadSummarizationChain } from "langchain/chains";
 import { RecursiveCharacterTextSplitter } from "langchain/text_splitter";
 import { PromptTemplate } from "langchain/prompts";
 import * as fs from "fs";
-import pdfLoader from "./pdfLoad.js";
+import { PDFLoader } from "langchain/document_loaders/fs/pdf";
 
 //test용 키
-const apiKey = "fuckyou";
+const apiKey = "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";
 
-const run = async () => {
+const langchainSummary = async (selectedFile) => {
+  const loader = new PDFLoader("pdf1.pdf", { splitPages: false });
+
+  const pdfText = await loader.load();
+  console.log(pdfText);
+
   // In this example, we use a `MapReduceDocumentsChain` specifically prompted to summarize a set of documents.
   // const text = fs.readFileSync("text1.txt", { encoding: "utf-8", flag: "r" });
-  // when use pdf file
-  const text = await pdfLoader();
   const model = new OpenAI({
+    modelName: "gpt-3.5-turbo",
     openAIApiKey: apiKey,
     maxTokens: -1,
   });
   const textSplitter = new RecursiveCharacterTextSplitter({
-    chunkSize: 2000,
+    chunkSize: 1000,
     chunkOverlap: 200,
   });
   // when use pdf file
-  const docs = await textSplitter.splitDocuments(text);
+  const docs = await textSplitter.splitDocuments(pdfText);
   // const docs = await textSplitter.createDocuments([text]);
 
   const mapPrompt1 =
-    "Write a concise summary of the following text delimited by triple backticks: {text} CONCISE SUMMARY:";
+    "Write a concise summary of the following:\n\n\n\n {text} \n\n\nCONCISE SUMMARY IN KOREAN:";
   const mapPrompt = new PromptTemplate({
     inputVariables: ["text"],
     template: mapPrompt1,
   });
 
   const mapPrompt2 =
-    "Write a concise summary of the following text delimited by triple backticks.Return your response in bullet points which covers the key points of the text. {text} BULLET POINT SUMMARY:";
+    "Write a concise summary of the following:\n\n\n\n {text} \n\n\nCONCISE SUMMARY IN KOREAN:";
   const combinePrompt = new PromptTemplate({
     inputVariables: ["text"],
     template: mapPrompt2,
@@ -52,6 +56,7 @@ const run = async () => {
   });
 
   console.log(res);
+  return res;
 
   //json으로 res 변환 후 txt파일에 기록
   // const jsonString = JSON.stringify(res);
@@ -66,4 +71,4 @@ const run = async () => {
   // });
 };
 
-run();
+export default langchainSummary();
