@@ -6,6 +6,7 @@ module.exports = {
     extend: {
       colors: {
         key: "#00798C",
+        light: "#609AA3",
       },
     },
   },
