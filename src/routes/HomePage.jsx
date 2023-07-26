@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router";
 import { useState } from "react";
-import HashLoader from "react-spinners/HashLoader";
 import langchainSummary from "../Functions/langchainSummary";
+import { BarLoader } from "react-spinners";
 
 const Home = ({ onReceiveSummary, setPdfFile }) => {
   const navigate = useNavigate();
@@ -115,7 +115,7 @@ const Home = ({ onReceiveSummary, setPdfFile }) => {
 
         {loading && (
           <div>
-            <HashLoader color="#36d7b7" />
+            <BarLoader height={30} width={900} color="#00798C" />
           </div>
         )}
 
