@@ -4,7 +4,7 @@
 
 /* 모든 버튼 일괄 적용 */
 .button {
-  @apply bg-orange-400 text-white font-medium hover:text-black rounded-xl text-lg p-3.5;
+  @apply bg-key border-key px-5 py-1 rounded-md font-bold text-white m-2 hover:bg-light;
 }
 /* 모든 form 일괄 적용 */
 .form {

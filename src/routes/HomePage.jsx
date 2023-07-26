@@ -3,7 +3,7 @@ import { useState } from "react";
 import HashLoader from "react-spinners/HashLoader";
 import langchainSummary from "../Functions/langchainSummary";
 
-const Home = ({ onReceiveSummary }) => {
+const Home = ({ onReceiveSummary, setPdfFile }) => {
   const navigate = useNavigate();
   const [selectedFile, setSelectedFile] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -18,6 +18,7 @@ const Home = ({ onReceiveSummary }) => {
 
   const handleFileChange = (file) => {
     setSelectedFile(file);
+    setPdfFile(file);
     const reader = new FileReader();
     reader.onload = (event) => {
       setFileUrl(event.target.result);
@@ -32,7 +33,7 @@ const Home = ({ onReceiveSummary }) => {
 
     setLoading(true);
     const res = await langchainSummary(fileUrl);
-    onReceiveSummary(res.text);
+    onReceiveSummary(res.intermediateSteps);
     setLoading(false);
     setShowGoToCheck(true);
   };
