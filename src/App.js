@@ -7,6 +7,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 
 function App() {
+  const [pdfFile, setPdfFile] = useState(null);
+
   const [summary, setSummary] = useState("");
 
   const handleSummary = (summaryResult) => {
@@ -20,9 +22,17 @@ function App() {
         <Routes>
           <Route
             path="/"
-            element={<HomePage onReceiveSummary={handleSummary} />}
+            element={
+              <HomePage
+                onReceiveSummary={handleSummary}
+                setPdfFile={setPdfFile}
+              />
+            }
           />
-          <Route path="/summary" element={<SummaryPage summary={summary} />} />
+          <Route
+            path="/summary"
+            element={<SummaryPage summary={summary} pdfFile={pdfFile} />}
+          />
         </Routes>
         <Footer />
       </BrowserRouter>
