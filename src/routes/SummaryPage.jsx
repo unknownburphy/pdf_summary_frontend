@@ -8,7 +8,6 @@ import PdfViewer from "../components/PdfViewer";
 const Summary = ({ summary, pdfFile }) => {
   const [value,setValue] = useState(summary)
   const [isEdit, setIsEdit] = useState(false);
-
   // if no summary is provided
   if (!summary) {
     return <div>there is no summary available</div>;
@@ -39,21 +38,48 @@ const Summary = ({ summary, pdfFile }) => {
       >
         <div
           id="summary-pdf-area-wrapper"
-          className="w-2/3 h-full p-6 flex items-center justify-center overflow-auto"
+          className="w-1/2 h-full p-6 flex items-center justify-center overflow-auto"
           // style={{ height: "calc(100vh - 2rem)" }}
         >
           <PdfViewer pdfFile={pdfFile}></PdfViewer>
         </div>
         <div
           id="summary-text-area-wrapper"
-          className="w-1/3 p-6 h-full flex flex-col"
+          className="w-1/2 p-6 h-full flex flex-col"
         >
           <div
             id="summary-text-area"
-            className="bg-white max-h-96 overflow-auto rounded-md shadow-md p-4"
+            className="bg-white h-full overflow-auto rounded-md shadow-md p-4"
             style={{ whiteSpace: "pre-wrap", wordWrap: "break-word" }}
           >
-            <div>{summary}</div>
+            <div>
+            {isEdit ? (
+        <MDEditor
+        value={value}
+        onChange={setValue}
+        preview="edit"
+        height={500}
+        />
+    ) : ( 
+        <MDEditor.Markdown source={value+"haha"} style={{
+          maxHeight: '500px',
+          overflowY: 'scroll',
+          padding: '10px',
+          border: '1px solid black',
+        }} />
+    )}
+    <div className="button">
+        {isEdit ? (
+            <button onClick={() => {
+                setIsEdit(false);
+            }}>Done</button>
+        ) : (
+            <button onClick={() => setIsEdit(true)}>
+                Edit
+            </button>
+        )}
+    </div>
+            </div>
           </div>
           <div
             id="summary-text-area-buttons"

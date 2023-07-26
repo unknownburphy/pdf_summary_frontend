@@ -52,7 +52,7 @@ const langchainSummary = async (selectedFile) => {
   });
 
   const mapPrompt2 =
-    "Write a summary of the following as long as possible:\n\n\n\n {text} \n\n\nCONCISE SUMMARY :";
+    "Write a summary of the following as long as possible and make them as a markdown:\n\n\n\n {text} \n\n\nmarkdown SUMMARY :";
   const combinePrompt = new PromptTemplate({
     inputVariables: ["text"],
     template: mapPrompt2,
