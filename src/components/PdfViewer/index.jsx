@@ -53,7 +53,7 @@ const PdfViewer = ({ pdfFile }) => {
       >
         <Document file={pdfFile} onLoadSuccess={onDocumentLoadSuccess}>
           <Page
-            height={windowSize.height * 0.7}
+            height={windowSize.height * 0.65}
             pageNumber={pageNumber}
             renderTextLayer={false}
             renderAnnotationLayer={false}

@@ -12,6 +12,7 @@ const Home = ({ onReceiveSummary, setPdfFile }) => {
 
   const handleDrop = (e) => {
     e.preventDefault();
+    e.stopPropagation();
     const file = e.dataTransfer.files[0];
     handleFileChange(file);
   };
@@ -44,16 +45,13 @@ const Home = ({ onReceiveSummary, setPdfFile }) => {
 
   const handleDragOver = (e) => {
     e.preventDefault();
+    e.stopPropagation();
   };
 
   return (
     <div className="bg-red-300 gap-12 h-full w-full flex flex-col items-start justify-between px-20 py-16 border-b-2 border-zinc-100">
       <div id="work-area">
-        <div
-          id="work-area-container-dropzone"
-          onDragOver={handleDragOver}
-          onDrop={handleDrop}
-        >
+        <div id="work-area-container-dropzone">
           <div className="flex-col justify-start items-start flex">
             <div className="text-[60px] font-black flex flex-col text-key ">
               시험공부할 때 PDF 요약하려면?
@@ -71,6 +69,8 @@ const Home = ({ onReceiveSummary, setPdfFile }) => {
           <label
             htmlFor="dropzone-file"
             className="flex flex-col items-center justify-center w-full h-64 border-[3px] border-key border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+            onDragOver={handleDragOver}
+            onDrop={handleDrop}
           >
             <div className="flex flex-col items-center justify-center pt-5 pb-6">
               <svg
