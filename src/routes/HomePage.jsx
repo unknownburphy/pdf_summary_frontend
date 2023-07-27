@@ -136,7 +136,13 @@ const Home = ({ onReceiveSummary, setPdfFile }) => {
 
         {loading && (
           <div>
-            <BarLoader height={30} width={900} color="#00798C" />
+            <div>
+              요약중입니다... 30장 이상의 파일은 1분 이상의 시간이 소요될 수
+              있습니다
+            </div>
+            <div>
+              <BarLoader height={30} width={900} color="#00798C" />
+            </div>
           </div>
         )}
 
