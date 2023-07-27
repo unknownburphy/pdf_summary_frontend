@@ -2,7 +2,6 @@ import FileSaver from "file-saver";
 import CopyToClipboard from "react-copy-to-clipboard";
 import MDEditor from "@uiw/react-md-editor";
 import { useEffect, useState } from "react";
-import { ReactMarkdownProps } from "react-markdown";
 import PdfViewer from "../components/PdfViewer";
 
 const Summary = ({ summary, totalSummary, pdfFile }) => {
@@ -19,11 +18,11 @@ const Summary = ({ summary, totalSummary, pdfFile }) => {
       summaryText += `### ${i + 1}\n` + summary[i] + "\n\n";
     }
     setValue(summaryText);
-  }, [summary]);
+  }, [summary, totalSummary]);
 
   // function to save text as a .txt file
   const handleExportTxt = () => {
-    const blob = new Blob([summary], { type: "text/plain;charset=utf-8" });
+    const blob = new Blob([value], { type: "text/plain;charset=utf-8" });
     FileSaver.saveAs(blob, "summary.txt");
   };
 
@@ -110,7 +109,7 @@ const Summary = ({ summary, totalSummary, pdfFile }) => {
             <CopyToClipboard
               id="summary-text-area-copy-button"
               className="button p-2 mb-2"
-              text={summary}
+              text={value}
               onCopy={() => alert("클립보드로 복사되었습니다")}
             >
               <button>클립보드로 복사하기</button>
