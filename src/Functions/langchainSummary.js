@@ -45,14 +45,14 @@ const langchainSummary = async (selectedFile) => {
   const docs = await textSplitter.createDocuments([extractedText]);
 
   const mapPrompt1 =
-    "Write a concise summary of the following:\n\n\n\n {text} \n\n\nCONCISE SUMMARY IN KOREAN:";
+    "Write a concise summary of the following:\n\n\n\n {text} \n\n\nCONCISE SUMMARY :";
   const mapPrompt = new PromptTemplate({
     inputVariables: ["text"],
     template: mapPrompt1,
   });
 
   const mapPrompt2 =
-    "Write a concise summary of the following:\n\n\n\n {text} \n\n\nCONCISE SUMMARY IN KOREAN:";
+    "Write a summary of the following as long as possible and make them as a markdown:\n\n\n\n {text} \n\n\nmarkdown SUMMARY :";
   const combinePrompt = new PromptTemplate({
     inputVariables: ["text"],
     template: mapPrompt2,
