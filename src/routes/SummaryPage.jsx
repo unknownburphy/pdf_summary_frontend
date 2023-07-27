@@ -3,6 +3,8 @@ import CopyToClipboard from "react-copy-to-clipboard";
 import MDEditor from "@uiw/react-md-editor";
 import { useEffect, useState } from "react";
 import PdfViewer from "../components/PdfViewer";
+import Edit from "../assets/images/edit.png";
+import Done from "../assets/images/done.png";
 
 const Summary = ({ summary, totalSummary, pdfFile }) => {
   const [value, setValue] = useState("");
@@ -39,82 +41,105 @@ const Summary = ({ summary, totalSummary, pdfFile }) => {
   return (
     <div
       id="summary-area-wrapper"
-      className="flex items-center justify-center h-screen w-full p-16 bg-gray-200"
+      className="flex items-center justify-center h-full w-full bg-gray-200"
     >
       <div
         id="summary-area"
-        className="flex w-full h-full bg-light rounded-lg shadow-lg overflow-hidden"
+        className="flex w-full h-full bg-white overflow-hidden"
       >
         <div
           id="summary-pdf-area-wrapper"
-          className="w-1/2 h-full p-6 flex items-center justify-center overflow-auto"
+          className="w-1/2 h-full bg-gray-50 p-5 flex flex-col items-center justify-center overflow-auto"
           // style={{ height: "calc(100vh - 2rem)" }}
         >
-          <PdfViewer pdfFile={pdfFile}></PdfViewer>
+          <div className="w-full h-8 flex flex-row justify-start ml-2 font-pre text-m font-bold text-gray-600 ">
+            📚 원본 PDF
+          </div>
+          <PdfViewer className="w-full" pdfFile={pdfFile}></PdfViewer>
         </div>
         <div
           id="summary-text-area-wrapper"
-          className="w-1/2 p-6 h-full flex flex-col"
+          className="w-1/2 h-full flex flex-col"
         >
           <div
             id="summary-text-area"
-            className="bg-white h-full overflow-auto rounded-md shadow-md p-4"
+            className="bg-white h-full overflow-auto p-5"
             style={{ whiteSpace: "pre-wrap", wordWrap: "break-word" }}
           >
-            <div>
-              {isEdit ? (
-                <MDEditor
-                  value={value}
-                  onChange={setValue}
-                  preview="edit"
-                  height={500}
-                />
-              ) : (
-                <MDEditor.Markdown
-                  source={value}
-                  style={{
-                    maxHeight: "500px",
-                    overflowY: "scroll",
-                    padding: "10px",
-                    border: "1px solid black",
-                  }}
-                />
-              )}
-              <div className="button">
+            <div className="flex flex-row justify-center items-center">
+              <div className="w-full h-8 flex flex-row ml-2 font-pre text-m font-bold text-gray-600 ">
+                🪄요약한 내용
+              </div>
+              <div>
                 {isEdit ? (
                   <button
                     onClick={() => {
                       setIsEdit(false);
                     }}
                   >
-                    편집 종료
+                    <img
+                      id="Done"
+                      src={Done}
+                      alt="Done"
+                      className="max-h-6 mr-4"
+                    />
                   </button>
                 ) : (
-                  <button onClick={() => setIsEdit(true)}>Edit</button>
+                  <button onClick={() => setIsEdit(true)}>
+                    <img
+                      id="Edit"
+                      src={Edit}
+                      alt="Edit"
+                      className="max-h-6 mr-4"
+                    />
+                  </button>
                 )}
               </div>
             </div>
-          </div>
-          <div
-            id="summary-text-area-buttons"
-            className="flex justify-between px-20"
-          >
-            <button
-              id="summary-text-area-export-button"
-              className="button p-2 mb-2"
-              onClick={handleExportTxt}
+            <div>
+              {isEdit ? (
+                <MDEditor
+                  value={value}
+                  onChange={setValue}
+                  preview="edit"
+                  height={600}
+                />
+              ) : (
+                <MDEditor.Markdown
+                  source={value}
+                  style={{
+                    maxHeight: "600px",
+                    overflowY: "scroll",
+                    padding: "10px",
+                    margin: "3px",
+                    border: "1px solid lightgray",
+                    fontFamily: "Pretendard",
+                  }}
+                />
+              )}
+            </div>
+            <div
+              id="summary-text-area-buttons"
+              className="flex justify-between w-full h-full gap-3 pt-5"
             >
-              텍스트 파일로 내보내기
-            </button>
-            <CopyToClipboard
-              id="summary-text-area-copy-button"
-              className="button p-2 mb-2"
-              text={value}
-              onCopy={() => alert("클립보드로 복사되었습니다")}
-            >
-              <button>클립보드로 복사하기</button>
-            </CopyToClipboard>
-            <button className="button p-2 mb-2">이것도 채워야겠지?</button>
+              <button
+                id="summary-text-area-export-button"
+                className="w-full h-20 bg-gray-200 mb-2 rounded-md font-pre font-medium text-l text-gray-700 hover:bg-light hover:text-[white] hover:font-bold"
+                onClick={handleExportTxt}
+              >
+                📁 텍스트 파일로 내보내기
+              </button>
+              <CopyToClipboard
+                id="summary-text-area-copy-button"
+                className="w-full h-20 bg-gray-200 mb-2 rounded-md font-pre font-medium text-l text-gray-700 hover:bg-light hover:text-[white] hover:font-bold"
+                text={value}
+                onCopy={() =>
+                  alert("클립보드로 복사되었어요! ctrl+v로 붙여넣기 해보세요.")
+                }
+              >
+                <button>📋 클립보드로 복사하기</button>
+              </CopyToClipboard>
+            </div>{" "}
           </div>
         </div>
       </div>

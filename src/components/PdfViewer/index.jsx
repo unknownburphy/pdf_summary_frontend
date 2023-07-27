@@ -54,7 +54,7 @@ const PdfViewer = ({ pdfFile }) => {
           {Array.from(new Array(numPages), (el, index) => (
             <Page
               key={`page_${index + 1}`}
-              width={windowSize.width * 0.4}
+              width={windowSize.width * 0.45}
               height={windowSize.height * 0.65}
               pageNumber={index + 1}
               renderTextLayer={false}
