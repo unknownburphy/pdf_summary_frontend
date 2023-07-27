@@ -8,6 +8,9 @@ module.exports = {
         key: "#00798C",
         light: "#609AA3",
       },
+      fontFamily: {
+        pre: ["Pretendard"],
+      },
     },
   },
   plugins: [],
