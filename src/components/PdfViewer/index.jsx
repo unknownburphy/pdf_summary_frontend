@@ -47,21 +47,23 @@ const PdfViewer = ({ pdfFile }) => {
   return (
     <div>
       <div
-        style={{ height: windowSize.height * 0.8, overflowX: "hidden" }}
-        onKeyDown={handleKeyDown}
+        style={{ height: windowSize.height * 0.8, overflowY: "scroll" }}
         tabIndex={0}
       >
         <Document file={pdfFile} onLoadSuccess={onDocumentLoadSuccess}>
-          <Page
-            height={windowSize.height * 0.65}
-            pageNumber={pageNumber}
-            renderTextLayer={false}
-            renderAnnotationLayer={false}
-            onLoadSuccess={onPageLoadSuccess}
-            onWheel={handleOnWheel}
-          />
+          {Array.from(new Array(numPages), (el, index) => (
+            <Page
+              key={`page_${index + 1}`}
+              width={windowSize.width * 0.4}
+              height={windowSize.height * 0.65}
+              pageNumber={index + 1}
+              renderTextLayer={false}
+              renderAnnotationLayer={false}
+              onLoadSuccess={onPageLoadSuccess}
+            />
+          ))}
         </Document>
-        <div>
+        {/* <div>
           <div>
             <button onClick={movePreviousPage}>←</button>
             <span>
@@ -69,7 +71,7 @@ const PdfViewer = ({ pdfFile }) => {
             </span>
             <button onClick={moveNextPage}>→</button>
           </div>
-        </div>
+        </div> */}
       </div>
     </div>
   );
