@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router";
 import { useState } from "react";
-import HashLoader from "react-spinners/HashLoader";
 import langchainSummary from "../Functions/langchainSummary";
+import { BarLoader } from "react-spinners";
 
-const Home = ({ onReceiveSummary }) => {
+const Home = ({ onReceiveSummary, setPdfFile }) => {
   const navigate = useNavigate();
   const [selectedFile, setSelectedFile] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -12,12 +12,14 @@ const Home = ({ onReceiveSummary }) => {
 
   const handleDrop = (e) => {
     e.preventDefault();
+    e.stopPropagation();
     const file = e.dataTransfer.files[0];
     handleFileChange(file);
   };
 
   const handleFileChange = (file) => {
     setSelectedFile(file);
+    setPdfFile(file);
     const reader = new FileReader();
     reader.onload = (event) => {
       setFileUrl(event.target.result);
@@ -32,7 +34,7 @@ const Home = ({ onReceiveSummary }) => {
 
     setLoading(true);
     const res = await langchainSummary(fileUrl);
-    onReceiveSummary(res.text);
+    onReceiveSummary(res.intermediateSteps);
     setLoading(false);
     setShowGoToCheck(true);
   };
@@ -43,16 +45,13 @@ const Home = ({ onReceiveSummary }) => {
 
   const handleDragOver = (e) => {
     e.preventDefault();
+    e.stopPropagation();
   };
 
   return (
     <div className="bg-red-300 gap-12 h-full w-full flex flex-col items-start justify-between px-20 py-16 border-b-2 border-zinc-100">
       <div id="work-area">
-        <div
-          id="work-area-container-dropzone"
-          onDragOver={handleDragOver}
-          onDrop={handleDrop}
-        >
+        <div id="work-area-container-dropzone">
           <div className="flex-col justify-start items-start flex">
             <div className="text-[60px] font-black flex flex-col text-key ">
               시험공부할 때 PDF 요약하려면?
@@ -70,6 +69,8 @@ const Home = ({ onReceiveSummary }) => {
           <label
             htmlFor="dropzone-file"
             className="flex flex-col items-center justify-center w-full h-64 border-[3px] border-key border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+            onDragOver={handleDragOver}
+            onDrop={handleDrop}
           >
             <div className="flex flex-col items-center justify-center pt-5 pb-6">
               <svg
@@ -114,7 +115,7 @@ const Home = ({ onReceiveSummary }) => {
 
         {loading && (
           <div>
-            <HashLoader color="#36d7b7" />
+            <BarLoader height={30} width={900} color="#00798C" />
           </div>
         )}
 
