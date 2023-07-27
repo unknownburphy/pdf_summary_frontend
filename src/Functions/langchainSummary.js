@@ -8,9 +8,24 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/$
 const apiKey = process.env.REACT_APP_OPENAI_API_KEY;
 
 const langchainSummary = async (selectedFile) => {
+  // parse pdf file
+  try {
+    pdfjs.getDocument(selectedFile);
+  } catch (error) {
+    console.log(error);
+    alert("파일을 불러오는데 실패했습니다.");
+    return { text: "error", intermediateSteps: [] };
+  }
+
   const loadingTask = pdfjs.getDocument(selectedFile);
   const pdf = await loadingTask.promise;
   const numPages = pdf.numPages;
+
+  // over 50 pages is not allowed
+  if (numPages > 50) {
+    alert("앗! 50p 이상의 pdf는 요약할 수 없습니다...");
+    return { text: "error", intermediateSteps: [] };
+  }
   let extractedText = "";
 
   for (let i = 1; i <= numPages; i++) {
@@ -20,15 +35,27 @@ const langchainSummary = async (selectedFile) => {
     extractedText += pageText;
   }
 
-  console.log(extractedText);
+  // set chunk size depending on the number of pages
+  let chunkSize;
+  if (numPages < 10) {
+    chunkSize = 3000;
+  } else if (numPages < 20) {
+    chunkSize = 6000;
+  } else if (numPages < 30) {
+    chunkSize = 9000;
+  } else if (numPages < 40) {
+    chunkSize = 12000;
+  } else {
+    chunkSize = 15000;
+  }
 
   const model = new OpenAI({
-    modelName: "gpt-3.5-turbo",
+    modelName: "gpt-3.5-turbo-16k",
     openAIApiKey: apiKey,
     maxTokens: -1,
   });
   const textSplitter = new RecursiveCharacterTextSplitter({
-    chunkSize: 2000,
+    chunkSize: chunkSize,
     chunkOverlap: 200,
   });
   const docs = await textSplitter.createDocuments([extractedText]);
