@@ -1,3 +1,0 @@
-type : module 삭제해야 됨. 
-이거 하면 react에서 오류가 난다. 
-langchain 실험해서 되면은 그냥 지우면 될듯

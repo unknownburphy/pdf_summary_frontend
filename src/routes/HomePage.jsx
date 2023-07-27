@@ -4,11 +4,32 @@ import langchainSummary from "../Functions/langchainSummary";
 import { BarLoader } from "react-spinners";
 
 const Home = ({ onReceiveSummary, setPdfFile }) => {
+  /* Logic
+
+  1. Drag and drop PDF file / Click to select PDF file
+      Drag and Drop : 'handleDragOver()' -> 'handleDrop()' -> 'handleFileChange()'
+      Click to select : 'handleFileChange()'
+
+  2. Show selected file name and summary start button
+      'handleFileChange()' -> 'setSelectedFile()' and 'setFileUrl()'
+      if 'selectedFile' exists, show 'selectedFile.name' and summary start button
+
+  3. When summary start button clicked
+      'loading' set to true -> loading bar appears
+      'handleSubmit()' -> 'langchainSummary()' send fileUrl to get summary
+      send 'response.intermediateSteps' to 'onReceiveSummary' to set summary of App.js
+      show 'go to check' button
+
+  4. When 'go to check' button clicked
+      navigate to '/summary'
+
+  */
+
   const navigate = useNavigate();
   const [selectedFile, setSelectedFile] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); // to show loading bar
   const [fileUrl, setFileUrl] = useState(null);
-  const [showGoToCheck, setShowGoToCheck] = useState(false);
+  const [showGoToCheck, setShowGoToCheck] = useState(false); // to show go to check button
 
   const handleDrop = (e) => {
     e.preventDefault();
@@ -34,7 +55,7 @@ const Home = ({ onReceiveSummary, setPdfFile }) => {
 
     setLoading(true);
     const res = await langchainSummary(fileUrl);
-    onReceiveSummary(res.intermediateSteps);
+    onReceiveSummary(res.intermediateSteps, res.text);
     setLoading(false);
     setShowGoToCheck(true);
   };
@@ -115,12 +136,19 @@ const Home = ({ onReceiveSummary, setPdfFile }) => {
 
         {loading && (
           <div>
-            <BarLoader height={30} width={900} color="#00798C" />
+            <div>
+              요약중입니다... 30장 이상의 파일은 1분 이상의 시간이 소요될 수
+              있습니다
+            </div>
+            <div>
+              <BarLoader height={30} width={900} color="#00798C" />
+            </div>
           </div>
         )}
 
         {showGoToCheck && (
           <div>
+            <div>요약이 완료되었습니다!</div>
             <button onClick={handleGoToCheck}>확인하러 가기</button>
           </div>
         )}

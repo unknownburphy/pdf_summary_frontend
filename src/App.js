@@ -8,11 +8,12 @@ import { useState } from "react";
 
 function App() {
   const [pdfFile, setPdfFile] = useState(null);
+  const [totalSummary, setTotalSummary] = useState(""); //
+  const [summary, setSummary] = useState([]);
 
-  const [summary, setSummary] = useState("");
-
-  const handleSummary = (summaryResult) => {
+  const handleSummary = (summaryResult, totalSummaryResult) => {
     setSummary(summaryResult);
+    setTotalSummary(totalSummaryResult);
   };
 
   return (
@@ -31,7 +32,13 @@ function App() {
           />
           <Route
             path="/summary"
-            element={<SummaryPage summary={summary} pdfFile={pdfFile} />}
+            element={
+              <SummaryPage
+                summary={summary}
+                totalSummary={totalSummary}
+                pdfFile={pdfFile}
+              />
+            }
           />
         </Routes>
         <Footer />
