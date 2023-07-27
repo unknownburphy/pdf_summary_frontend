@@ -1,8 +1,9 @@
 const Footer = () => {
   return (
-    <div id="footer-wrapper" className="bg-slate-200 w-full">
-      <div>
-        <span>Footer div</span>
+    <div id="footer-wrapper" className="w-full">
+      <div className="bg-gray-50 w-full h-80">
+        <div></div>
+        <span></span>
       </div>
     </div>
   );
