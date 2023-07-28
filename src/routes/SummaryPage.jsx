@@ -26,15 +26,15 @@ const Summary = ({ summary, totalSummary, pdfFile }) => {
     FileSaver.saveAs(blob, "summary.txt");
   };
 
-  const handleScroll = (e) => {
-    // 여기에 스크롤 이벤트에 대한 핸들러 코드를 작성
-    console.log("Scroll event", e);
-  };
+  // const handleScroll = (e) => {
+  //   // 여기에 스크롤 이벤트에 대한 핸들러 코드를 작성
+  //   console.log("Scroll event", e);
+  // };
 
-  const handleMouseOver = (e) => {
-    // 여기에 마우스 오버 이벤트에 대한 핸들러 코드를 작성
-    console.log("Mouse over event", e);
-  };
+  // const handleMouseOver = (e) => {
+  //   // 여기에 마우스 오버 이벤트에 대한 핸들러 코드를 작성
+  //   console.log("Mouse over event", e);
+  // };
 
   return (
     <div
@@ -72,6 +72,11 @@ const Summary = ({ summary, totalSummary, pdfFile }) => {
               ) : (
                 <MDEditor.Markdown
                   source={value}
+                  rehypeRewrite={(node, index, parent) => {
+                    if (node.tagName === "a" && parent && /^h(1|2|3|4|5|6)/.test(parent.tagName)) {
+                      parent.children = parent.children.slice(1)
+                    }
+                  }}
                   style={{
                     maxHeight: "500px",
                     overflowY: "scroll",
