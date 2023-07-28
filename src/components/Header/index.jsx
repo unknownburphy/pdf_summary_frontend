@@ -9,13 +9,13 @@ const Header = () => {
     >
       <div className="flex items-center">
         <img id="logo" src={logo} alt="logo" className="max-h-16" />
-        <Link className="ml-3 font-black text-xl text-key" to="/">
+        <Link className="ml-3 font-black text-xl text-key font-pre" to="/">
           PDFSUMMARY
         </Link>
       </div>
 
       <div className="flex">
-        <Link className="bg-key px-5 py-3 rounded-md font-bold text-white">
+        <Link className="bg-key font-pre px-5 py-3 rounded-md font-bold text-white">
           {" "}
           지금 요약하기{" "}
         </Link>
