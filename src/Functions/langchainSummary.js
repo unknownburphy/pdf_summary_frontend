@@ -37,13 +37,13 @@ const langchainSummary = async (selectedFile) => {
   // set chunk size depending on the length of text
   let chunkSize;
   if (extractedText.length < 10000) {
-    chunkSize = 2000;
+    chunkSize = 1000;
   } else if (extractedText.length < 20000) {
-    chunkSize = 3000;
+    chunkSize = 2000;
   } else if (extractedText.length < 40000) {
-    chunkSize = 4000;
+    chunkSize = 3000;
   } else if (extractedText.length < 80000) {
-    chunkSize = 5000;
+    chunkSize = 4000;
   } else {
     chunkSize = 8000;
   }
