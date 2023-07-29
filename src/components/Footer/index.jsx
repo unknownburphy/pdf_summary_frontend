@@ -2,10 +2,11 @@ import Minho from "../../assets/images/minho.png";
 import Ran from "../../assets/images/ran.png";
 import Hyun from "../../assets/images/donghyun.png";
 import Min from "../../assets/images/dongmin.png";
+import { useLocation } from "react-router-dom";
 
 const Footer = () => {
   const location = useLocation();
-  if (location.pathname === '/summary') return null;
+  if (location.pathname === "/summary") return null;
   return (
     <div id="footer-wrapper" className="w-full">
       <div className="bg-key w-full h-full">
