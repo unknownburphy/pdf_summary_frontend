@@ -23,8 +23,7 @@ const langchainSummary = async (selectedFile) => {
 
   // over 50 pages is not allowed
   if (numPages > 50) {
-    alert("앗! 50p 이상의 pdf는 요약할 수 없습니다...");
-    return { text: "error", intermediateSteps: [] };
+    throw new Error("앗! 50p 이상의 pdf는 요약할 수 없습니다...");
   }
   let extractedText = "";
 

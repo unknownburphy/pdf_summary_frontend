@@ -54,10 +54,18 @@ const Home = ({ onReceiveSummary, setPdfFile }) => {
     }
 
     setLoading(true);
+    try{
     const res = await langchainSummary(fileUrl);
     onReceiveSummary(res.intermediateSteps, res.text);
     setLoading(false);
     setShowGoToCheck(true);
+  }  catch (error) {
+    console.error(error); // 에러 출력
+    setLoading(false);
+    setSelectedFile(null);
+    navigate("/"); // 홈 화면으로 돌아갑니다.
+    alert("앗! 50p 이상의 pdf는 요약할 수 없습니다...다른 파일을 선택해주세요."); // 사용자에게 알리기
+  }
   };
 
   const handleGoToCheck = () => {
