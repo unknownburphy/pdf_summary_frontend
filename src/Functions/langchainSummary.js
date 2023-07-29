@@ -39,13 +39,13 @@ const langchainSummary = async (selectedFile) => {
   if (extractedText.length < 10000) {
     chunkSize = 2000;
   } else if (extractedText.length < 20000) {
-    chunkSize = 4000;
+    chunkSize = 3000;
   } else if (extractedText.length < 40000) {
-    chunkSize = 6000;
+    chunkSize = 4000;
   } else if (extractedText.length < 80000) {
-    chunkSize = 8000;
+    chunkSize = 5000;
   } else {
-    chunkSize = 10000;
+    chunkSize = 8000;
   }
 
   const model = new OpenAI({
