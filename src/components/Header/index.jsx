@@ -1,23 +1,24 @@
-import logo from "../.././logo.svg";
 import { Link } from "react-router-dom";
+import logo from "../../assets/images/logo.png";
 
 const Header = () => {
   return (
     <div
       id="header-wrapper"
-      className="flex items-center justify-between w-full gap-5 px-5 py-2.5 h-20 bg-slate-200"
+      className="flex items-center justify-between w-full gap-5 px-20 py-2.5 h-20 border-b-2 border-zinc-100"
     >
       <div className="flex items-center">
         <img id="logo" src={logo} alt="logo" className="max-h-16" />
-        <Link className="ml-3 uppercase" to="/">
-          pdfsummary
+        <Link className="ml-3 font-black text-xl text-key font-pre" to="/">
+          PDFSUMMARY
         </Link>
       </div>
 
       <div className="flex">
-        <Link> menu1 </Link>
-        <Link> menu2 </Link>
-        <Link> 지금 요약하기 </Link>
+        {/* <Link className="bg-key font-pre px-5 py-3 rounded-md font-bold text-white" to="/">
+          {" "}
+          뒤로 가기{" "}
+        </Link> */}
       </div>
     </div>
   );
