@@ -4,6 +4,8 @@ import Hyun from "../../assets/images/donghyun.png";
 import Min from "../../assets/images/dongmin.png";
 
 const Footer = () => {
+  const location = useLocation();
+  if (location.pathname === '/summary') return null;
   return (
     <div id="footer-wrapper" className="w-full">
       <div className="bg-key w-full h-full">
