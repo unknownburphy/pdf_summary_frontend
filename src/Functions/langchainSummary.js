@@ -33,19 +33,19 @@ const langchainSummary = async (selectedFile) => {
     const pageText = textContent.items.map((item) => item.str).join(" ");
     extractedText += pageText;
   }
-
-  // set chunk size depending on the number of pages
+  console.log(extractedText.length);
+  // set chunk size depending on the length of text
   let chunkSize;
-  if (numPages < 10) {
-    chunkSize = 3000;
-  } else if (numPages < 20) {
+  if (extractedText.length < 10000) {
+    chunkSize = 2000;
+  } else if (extractedText.length < 20000) {
+    chunkSize = 4000;
+  } else if (extractedText.length < 40000) {
     chunkSize = 6000;
-  } else if (numPages < 30) {
-    chunkSize = 9000;
-  } else if (numPages < 40) {
-    chunkSize = 12000;
+  } else if (extractedText.length < 80000) {
+    chunkSize = 8000;
   } else {
-    chunkSize = 15000;
+    chunkSize = 10000;
   }
 
   const model = new OpenAI({
@@ -81,7 +81,7 @@ const langchainSummary = async (selectedFile) => {
     returnIntermediateSteps: true,
     combineMapPrompt: mapPrompt,
     combinePrompt: combinePrompt,
-    verbose: true,
+    // verbose: true,
   });
   const res = await chain.call({
     input_documents: docs,

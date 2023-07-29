@@ -15,10 +15,10 @@ const Header = () => {
       </div>
 
       <div className="flex">
-        <Link className="bg-key font-pre px-5 py-3 rounded-md font-bold text-white">
+        {/* <Link className="bg-key font-pre px-5 py-3 rounded-md font-bold text-white" to="/">
           {" "}
-          지금 요약하기{" "}
-        </Link>
+          뒤로 가기{" "}
+        </Link> */}
       </div>
     </div>
   );
