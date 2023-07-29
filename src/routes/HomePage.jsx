@@ -56,18 +56,20 @@ const Home = ({ onReceiveSummary, setPdfFile }) => {
     }
 
     setLoading(true);
-    try{
-    const res = await langchainSummary(fileUrl);
-    onReceiveSummary(res.intermediateSteps, res.text);
-    setLoading(false);
-    setShowGoToCheck(true);
-  }  catch (error) {
-    console.error(error); // 에러 출력
-    setLoading(false);
-    setSelectedFile(null);
-    navigate("/"); // 홈 화면으로 돌아갑니다.
-    alert("앗! 50p 이상의 pdf는 요약할 수 없습니다...다른 파일을 선택해주세요."); // 사용자에게 알리기
-  }
+    try {
+      const res = await langchainSummary(fileUrl);
+      onReceiveSummary(res.intermediateSteps, res.text);
+      setLoading(false);
+      setShowGoToCheck(true);
+    } catch (error) {
+      console.error(error); // 에러 출력
+      setLoading(false);
+      setSelectedFile(null);
+      navigate("/"); // 홈 화면으로 돌아갑니다.
+      alert(
+        "앗! 50p 이상의 pdf는 요약할 수 없습니다...다른 파일을 선택해주세요."
+      ); // 사용자에게 알리기
+    }
   };
 
   const handleGoToCheck = () => {
@@ -148,7 +150,11 @@ const Home = ({ onReceiveSummary, setPdfFile }) => {
 
         {selectedFile && !loading && !showGoToCheck && (
           <div className="flex-col justify-start items-start flex w-full">
-            <div className="flex flex-col items-center justify-center w-full h-80 border-[3px] border-gray-300 border-dashed rounded-lg bg-gray-50 ">
+            <div
+              className="flex flex-col items-center justify-center w-full h-80 border-[3px] border-gray-300 border-dashed rounded-lg bg-gray-50  hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
+              onDragOver={handleDragOver}
+              onDrop={handleDrop}
+            >
               <div className="flex flex-col items-center justify-center w-full mb-5">
                 <img
                   id="fileimage"
